@@ -36,4 +36,6 @@ def addMipoint(predictions : pandas) -> pandas:
     predictions["midLat"] = predictions.apply(lambda row: midpointX(row),axis=1)
     predictions["midLong"] = predictions.apply(lambda row: midpointY(row),axis=1)
 
+    predictions = predictions.reset_index()
+
     return predictions[["predictions", "midLat", "midLong"]]

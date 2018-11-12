@@ -1,11 +1,15 @@
 import pandas as pd
 import geopy.distance
 
-links_path = "../master_files/mapped_links_precip.csv"
+import os
+from demo.settings import BASE_DIR
+links_path = "cmlare/master_files/mapped_links_precip.csv"
+links_path = os.path.join(BASE_DIR, links_path)
+
 links = pd.read_csv(links_path)
 
-def process_file(link_data_df):
 
+def process_file(link_data_df):
     leftMerge = links.merge(link_data_df, left_on=links["source1_name"],right_on=link_data_df["ResourceName"],how="left")
     leftMerge = leftMerge.drop(columns = ["key_0"])
     rightMerge = leftMerge.merge(link_data_df, left_on=leftMerge["source2_name"],right_on=link_data_df["ResourceName"],how="left")
