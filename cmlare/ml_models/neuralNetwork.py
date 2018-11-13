@@ -14,7 +14,6 @@ selected_feature_types = ["FrequencyBand","PathLength","RSL_AVG","RSL_MIN","RSL_
 
 def wetClassification(dataframe):
     wetLinks = dataframe.loc[dataframe["predictions"] != "DRY"]
-    print(wetLinks.shape)
     X = wetLinks[selected_feature_types]
     scaler = StandardScaler()
     # Fit only to the training data
@@ -30,7 +29,7 @@ def wetClassification(dataframe):
 
     for index,row in wetLinks.iterrows():
         try:
-            print(dryLinks.loc[index])
+            dryLinks.loc[index]
             dryLinks.drop(index,inplace=True)
         except KeyError:
             continue

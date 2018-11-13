@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CMLARE</title>
+      <!--Bootstrap CSS-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <!--&lt;!&ndash;Bootstra[ JS&ndash;&gt;-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+      #floating-panel {
+        background-color: #fff;
+        border: 1px solid #999;
+        left: 25%;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        z-index: 5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="floating-panel">
+         <div class="row justify-content-md-center">
+              <form action="/cmlare/data/xgboost" method="POST" enctype="multipart/form-data" id="upload-form">
+                  {% csrf_token %}
+                    <div class="form-group">
+                            <div class="col">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                  <label class="btn btn-secondary active">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" onclick="document.getElementById('upload-form').action='data/xgboost';"checked> Supervised Ensemble
+                                  </label>
+                                  <label class="btn btn-secondary">
+                                    <input type="radio" name="options" id="option2" autocomplete="off" onclick="document.getElementById('upload-form').action='data/ann';"> Best ANN
+                                  </label>
+                                  <label class="btn btn-secondary">
+                                    <input type="radio" name="options" id="option3" autocomplete="off" onclick="document.getElementById('upload-form').action='data/kr';"> KR Relation
+                                  </label>
+                                </div>
+                           </div>
+                    </div>
+                    <div class="form-group">
+                          <div class="form-inline">
+                              <div class="form-group">
+                                <input type="file" name="files" id="js-upload-files" multiple>
+                              </div>
+                                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+                          </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+    <div id="map"></div>
+    <script>
+
+      // This example requires the Visualization library. Include the libraries=visualization
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+
+      var map, heatmap;
+        var results = '{{ results|escapejs }}';
+        results = JSON.parse(results);
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: {lat: 6.947148, lng: 80.072893},
+          <!--mapTypeId: 'roadmap'-->
+          mapTypeId: 'TERRAIN'
+        });
+
+         // Class A
+        var heatmapA = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("1"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapA.setMap(map);
+        var gradientA = [
+          'rgba(119,93,94, 0)',
+          'rgba(122,97,99, 0.4)',
+          'rgba(124,103,104, 0.6)',
+          'rgba(142,131,131,0.8)',
+        ]
+        heatmapA.set('gradient', gradientA);
+        heatmapA.set('opacity', 1);
+
+        // Class B
+        var heatmapB = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("2"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapB.setMap(map);
+        var gradientB = [
+          'rgba(156, 141,181, 0.2)',
+          'rgba(164,150,186, 0.5)',
+          'rgba(172,160,191, 1)',
+        ]
+        heatmapB.set('gradient', gradientB);
+
+        // Class C
+         var heatmapC = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("3"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapC.setMap(map);
+        var gradientC = [
+        'rgba(67, 127, 211, 0.2)',
+          'rgba(72,131,214, 0.5)',
+          'rgba(2, 88, 226, 1)',
+        ]
+        heatmapC.set('gradient', gradientC);
+
+        // Class D
+        var heatmapD = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("4"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapD.setMap(map);
+        var gradientD = [
+          'rgba(97,226,68, 0.2)',
+          'rgba(103,229,75, 0.5)',
+          'rgba(110, 234, 82, 1)',
+
+        ]
+        heatmapD.set('gradient', gradientD);
+
+        // Class E
+        var heatmapE = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("4"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapE.setMap(map);
+        var gradientE = [
+          'rgba(206,206,51, 0.2)',
+          'rgba(211,211,61, 0.5)',
+          'rgba(224,224,71, 1)',
+
+        ]
+        heatmapE.set('gradient', gradientE);
+
+        // Class F
+        var heatmapF = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("4"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapF.setMap(map);
+        var gradientF = [
+          'rgba(209,147,41, 0.2)',
+          'rgba(216, 155,49, 0.5)',
+          'rgba(224,163,58, 1)',
+
+        ]
+        heatmapF.set('gradient', gradientF);
+
+        // Class G
+        var heatmapG = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("4"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapG.setMap(map);
+        var gradientG = [
+          'rgba(224,58,188, 0.2)',
+          'rgba(232,67,196, 0.5)',
+          'rgba(237,78,202, 1)',
+
+        ]
+        heatmapG.set('gradient', gradientG);
+
+        // Class H
+        var heatmapH = new google.maps.visualization.HeatmapLayer({
+          data: getPoints("4"),
+          dissapating: true,
+          radius: 30
+        });
+        heatmapH.setMap(map);
+        var gradientH = [
+          'rgba(224,221,18, 0.2)',
+          'rgba(211,30,27, 0.5)',
+          'rgba(219,40,37, 1)',
+
+        ]
+        heatmapH.set('gradient', gradientH);
+
+      }
+
+
+      function changeRadius() {
+        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+      }
+
+      function changeOpacity() {
+        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+      }
+
+      function getPoints(type) {
+        var points = [];
+        for(var i = 0; i < results.length; i++) {
+            var result = results[i];
+            if(result.predictions == type){
+                 points.push(new google.maps.LatLng(result.midLat, result.midLong))
+            }
+        }
+        return points;
+      }
+
+
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCT-ihs1AcQioKs_74BqCeW6d2WqtEaNgc&libraries=visualization&callback=initMap">
+    </script>
+  </body>

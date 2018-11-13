@@ -16,5 +16,3 @@ from cmlare.processData.processResult import addMipoint
 
 predictions = addMipoint(predictions)
 # print(predictions.loc[predictions["predictions"]!="A"])
-print(predictions)
-print(predictions.loc[73])

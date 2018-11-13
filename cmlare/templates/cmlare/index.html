@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CMLARE</title>
+     <!--Bootstrap CSS-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <!--&lt;!&ndash;Bootstra[ JS&ndash;&gt;-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <style >
+            .upload-drop-zone {
+              height: 200px;
+              border-width: 2px;
+              margin-bottom: 20px;
+            }
+
+            /* skin.css Style*/
+            .upload-drop-zone {
+              color: #ccc;
+              border-style: dashed;
+              border-color: #ccc;
+              line-height: 200px;
+              text-align: center
+            }
+            .upload-drop-zone.drop {
+              color: #222;
+              border-color: #222;
+            }
+        </style>
+</head>
+<body>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <a class="navbar-brand" href="#">CMLARE Demo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="#">History <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="/">Add Data</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="panel panel-default">
+
+                <div class="row justify-content-md-center">
+
+                  <form action="data/xgboost" method="POST" enctype="multipart/form-data" id="upload-form">
+                      {% csrf_token %}
+                        <div class="form-group">
+                                <div class="col">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                      <label class="btn btn-secondary active">
+                                        <input type="radio" name="options" id="option1" autocomplete="off" onclick="document.getElementById('upload-form').action='data/xgboost';"checked> Supervised Ensemble
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="options" id="option2" autocomplete="off" onclick="document.getElementById('upload-form').action='data/ann';"> Best ANN
+                                      </label>
+                                      <label class="btn btn-secondary">
+                                        <input type="radio" name="options" id="option3" autocomplete="off" onclick="document.getElementById('upload-form').action='data/kr';"> KR Relation
+                                      </label>
+                                    </div>
+                               </div>
+                        </div>
+                        <div class="form-group">
+                              <div class="form-inline">
+                                  <div class="form-group">
+                                    <input type="file" name="files" id="js-upload-files" multiple>
+                                  </div>
+                                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+                              </div>
+                        </div>
+                    </form>
+                </div>
+                <!--<div class="row justify-content-md-references">-->
+                    <!--<div class="upload-drop-zone" id="drop-zone">-->
+                                <!--Just drag and drop files here-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+
+    <script type="text/javascript">
+        function($) {
+            'use strict';
+
+            // UPLOAD CLASS DEFINITION
+            // ======================
+
+            var dropZone = document.getElementById('drop-zone');
+            var uploadForm = document.getElementById('js-upload-form');
+
+            var startUpload = function(files) {
+                console.log(files)
+            }
+
+            uploadForm.addEventListener('submit', function(e) {
+                var uploadFiles = document.getElementById('js-upload-files').files;
+                e.preventDefault()
+
+                startUpload(uploadFiles)
+            })
+
+            dropZone.ondrop = function(e) {
+                e.preventDefault();
+                this.className = 'upload-drop-zone';
+
+                startUpload(e.dataTransfer.files)
+            }
+
+            dropZone.ondragover = function() {
+                this.className = 'upload-drop-zone drop';
+                return false;
+            }
+
+            dropZone.ondragleave = function() {
+                this.className = 'upload-drop-zone';
+                return false;
+            }
+
+        }(jQuery);
+    </script>
+
+    </body>
+</html>
