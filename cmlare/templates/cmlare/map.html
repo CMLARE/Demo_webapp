@@ -36,48 +36,104 @@
         line-height: 30px;
         padding-left: 10px;
       }
-      #floating-panel {
-        background-color: #fff;
-        border: 1px solid #999;
-        left: 25%;
-        padding: 5px;
-        position: absolute;
-        top: 10px;
-        z-index: 5;
-      }
+      #l {
+         position:absolute;
+         left:1.5em;
+         z-index:6;
+         line-height:1.5em;
+         font-size:80%;
+         bottom:7.5em;
+         display:table-cell;
+         background:#777;
+         background:linear-gradient(90deg,#555,#999,#555)
+        }
+        #l span {
+         padding:0 .25em;
+         display:block;
+         text-align:center
+        }
+        #l .pq {
+         color:#000;
+         background:#fff;
+         height:40px;
+        }
+        #l .yy {
+         padding:0 .5em;
+         font-family:Helvetica Neue,Arial,Helvetica,sans-serif;
+         font-weight:700;
+         height:40px
+        }
+        #l.rc {
+         cursor:pointer
+        }
+        #l.rc .pq:after {
+         content:"\203a";
+         transition:.25s;
+         margin-left:-.5em;
+         width:.5em;
+         text-align:right;
+         display:inline-block;
+         opacity:0
+        }
+        #l.rc:hover .pq:after {
+         opacity:1;
+         margin-left:0
+        }
+
     </style>
   </head>
 
   <body>
     <div id="floating-panel">
          <div class="row justify-content-md-center">
-              <form action="/cmlare/data/xgboost" method="POST" enctype="multipart/form-data" id="upload-form">
+              <form action="/cmlare/" method="POST" enctype="multipart/form-data" id="upload-form">
                   {% csrf_token %}
                     <div class="form-group">
                             <div class="col">
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                  <label class="btn btn-secondary active">
-                                    <input type="radio" name="options" id="option1" autocomplete="off" onclick="document.getElementById('upload-form').action='data/xgboost';"checked> Supervised Ensemble
+                                  <label class="btn btn-secondary active" id="option1-label">
+                                    <input type="radio" name="options" id="option1" autocomplete="off" checked> All class Supervised Ensemble
                                   </label>
-                                  <label class="btn btn-secondary">
-                                    <input type="radio" name="options" id="option2" autocomplete="off" onclick="document.getElementById('upload-form').action='data/ann';"> Best ANN
+                                  <label class="btn btn-secondary" id="option2-label">
+                                    <input type="radio" name="options" id="option2" autocomplete="off" onclick="document.getElementById('upload-form').action='data/ann';"> Wet Dry ANN
                                   </label>
-                                  <label class="btn btn-secondary">
-                                    <input type="radio" name="options" id="option3" autocomplete="off" onclick="document.getElementById('upload-form').action='data/kr';"> KR Relation
-                                  </label>
+                                  <!--<label class="btn btn-secondary">-->
+                                    <!--<input type="radio" name="options" id="option3" autocomplete="off" onclick="document.getElementById('upload-form').action='data/kr';"> KR Relation-->
+                                  <!--</label>-->
                                 </div>
                            </div>
                     </div>
                     <div class="form-group">
                           <div class="form-inline">
-                              <div class="form-group">
-                                <input type="file" name="files" id="js-upload-files" multiple>
+                              <div class="col">
+                                  <div class="form-group">
+                                    <input type="file" name="files" id="js-upload-files">
+                                  </div>
+                                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
                               </div>
-                                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
                           </div>
                     </div>
                 </form>
             </div>
+    </div>
+    <div id="l" title="Change units to “inch”" class="rc">
+        <span class="pq" style="">mm</span>
+        <!--<span class="yy" style="background: rgb(84, 16, 41) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">50</span>-->
+        <!--<span class="yy" style="background: rgb(147, 23, 78) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">40</span>-->
+        <span class="yy" style="background: rgba(224,221,18,0.87) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">10+</span>
+        <span class="yy" style="background: rgba(224,58,188, 0.87) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">10</span>
+        <!--<span class="yy" style="background: rgba(233, 123, 72, 0.87) none repeat scroll 0% 0%; color: rgb(0, 0, 0);">15</span>-->
+        <span class="yy" style="background: rgba(234, 164, 62, 0.87) none repeat scroll 0% 0%; color: rgb(0, 0, 0);">7</span>
+        <span class="yy" style="background: rgba(235, 192, 56, 0.87) none repeat scroll 0% 0%; color: rgb(0, 0, 0);">5</span>
+        <!--<span class="yy" style="background: rgba(220, 234, 55, 0.87) none repeat scroll 0% 0%; color: rgb(0, 0, 0);">6</span>-->
+        <span class="yy" style="background: rgba(149, 219, 70, 0.87) none repeat scroll 0% 0%; color: rgb(0, 0, 0);">2.5</span>
+        <!--<span class="yy" style="background: rgba(78, 194, 98, 0.87) none repeat scroll 0% 0%; color: rgb(0, 0, 0);">2</span>-->
+        <span class="yy" style="background: rgba(64, 160, 180, 0.87) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">1</span>
+        <span class="yy" style="background: rgba(67, 105, 196, 0.75) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0.5</span>
+        <!--<span class="yy" style="background: rgba(85, 78, 177, 0.5) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0.2</span>-->
+        <!--<span class="yy" style="background: rgba(82, 71, 141, 0.38) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0.1</span>-->
+        <span class="yy" style="background: rgb(209, 92, 92) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0</span>
+        <div id="h"></div>
     </div>
     <div id="map"></div>
     <script>
@@ -85,134 +141,159 @@
       // This example requires the Visualization library. Include the libraries=visualization
       // parameter when you first load the API. For example:
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
+     $(document).ready(function(){
+        $('#option1-label').click(function(){
+            console.log("Ensemble xgboost");
+            results = allclass;
+            <!--console.log(results)-->
+            initMap();
+
+        });
+        $('#option2-label').click(function(){
+            console.log("ANN");
+            results = wetDryNeural;
+            <!--console.log(results)-->
+
+            initMap();
+
+        });
+        });
 
       var map, heatmap;
-        var results = '{{ results|escapejs }}';
-        results = JSON.parse(results);
+        var allclass = '{{allclass|escapejs }}';
+            allclass = JSON.parse(allclass);
+
+        var wetDryNeural = '{{wetDry|escapejs}}';
+            wetDryNeural = JSON.parse(wetDryNeural);
+
+        var results = allclass;
+
+
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 8,
           center: {lat: 6.947148, lng: 80.072893},
           <!--mapTypeId: 'roadmap'-->
-          mapTypeId: 'TERRAIN'
+          <!--mapTypeId: 'terrain'-->
+          <!--mapTypeId: 'hybrid'-->
+           mapTypeId: 'satellite'
         });
 
          // Class A
         var heatmapA = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("1"),
-          dissapating: true,
-          radius: 30
+          data: getPoints("A"),
+          dissipating: true,
+          radius: 15
         });
         heatmapA.setMap(map);
         var gradientA = [
-          'rgba(119,93,94, 0)',
-          'rgba(122,97,99, 0.4)',
-          'rgba(124,103,104, 0.6)',
-          'rgba(142,131,131,0.8)',
+          'rgba(209, 92, 92, 0)',
+          'rgba(224, 100, 100, 1)',
+          <!--'rgba(124,103,104, 0.6)',-->
+          <!--'rgba(142,131,131,0.8)',-->
         ]
         heatmapA.set('gradient', gradientA);
-        heatmapA.set('opacity', 1);
+        <!--heatmapA.set('opacity', 1);-->
 
         // Class B
         var heatmapB = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("2"),
+          data: getPoints("B"),
           dissapating: true,
-          radius: 30
+          radius: 15
         });
         heatmapB.setMap(map);
         var gradientB = [
-          'rgba(156, 141,181, 0.2)',
-          'rgba(164,150,186, 0.5)',
-          'rgba(172,160,191, 1)',
+          'rgba(67, 105, 196, 0)',
+          'rgba(67, 105, 196, 1)',
         ]
         heatmapB.set('gradient', gradientB);
 
         // Class C
          var heatmapC = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("3"),
+          data: getPoints("C"),
           dissapating: true,
-          radius: 30
+          radius: 15
         });
         heatmapC.setMap(map);
         var gradientC = [
-        'rgba(67, 127, 211, 0.2)',
-          'rgba(72,131,214, 0.5)',
-          'rgba(2, 88, 226, 1)',
+          <!--'rgba(67, 127, 211, 0.2)',-->
+          'rgba(64, 160, 180, 0)',
+          'rgba(64, 160, 180, 1)',
         ]
         heatmapC.set('gradient', gradientC);
 
         // Class D
         var heatmapD = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("4"),
+          data: getPoints("D"),
           dissapating: true,
-          radius: 30
+          radius: 10
         });
         heatmapD.setMap(map);
         var gradientD = [
-          'rgba(97,226,68, 0.2)',
-          'rgba(103,229,75, 0.5)',
-          'rgba(110, 234, 82, 1)',
+          'rgba(97,226,68, 0)',
+          <!--'rgba(103,229,75, 0.5)',-->
+          'rgba(97, 226, 68, 1)',
 
         ]
         heatmapD.set('gradient', gradientD);
 
         // Class E
         var heatmapE = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("4"),
+          data: getPoints("E"),
           dissapating: true,
-          radius: 30
+          radius: 15
         });
         heatmapE.setMap(map);
         var gradientE = [
           'rgba(206,206,51, 0.2)',
-          'rgba(211,211,61, 0.5)',
-          'rgba(224,224,71, 1)',
+          <!--'rgba(211,211,61, 0.5)',-->
+          'rgba(206,206,51, 0.2)',
 
         ]
         heatmapE.set('gradient', gradientE);
 
         // Class F
         var heatmapF = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("4"),
+          data: getPoints("F"),
           dissapating: true,
-          radius: 30
+          radius: 15
         });
         heatmapF.setMap(map);
         var gradientF = [
-          'rgba(209,147,41, 0.2)',
-          'rgba(216, 155,49, 0.5)',
-          'rgba(224,163,58, 1)',
+          'rgba(209,147,41, 0)',
+          <!--'rgba(216, 155,49, 0.5)',-->
+          'rgba(209,147,41, 1)',
 
         ]
         heatmapF.set('gradient', gradientF);
 
         // Class G
         var heatmapG = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("4"),
+          data: getPoints("G"),
           dissapating: true,
-          radius: 30
+          radius: 15
         });
         heatmapG.setMap(map);
         var gradientG = [
-          'rgba(224,58,188, 0.2)',
-          'rgba(232,67,196, 0.5)',
-          'rgba(237,78,202, 1)',
+          'rgba(224,58,188, 0)',
+          <!--'rgba(232,67,196, 0.5)',-->
+          'rgba(224,58,188,1)',
 
         ]
         heatmapG.set('gradient', gradientG);
 
         // Class H
         var heatmapH = new google.maps.visualization.HeatmapLayer({
-          data: getPoints("4"),
+          data: getPoints("H"),
           dissapating: true,
-          radius: 30
+          radius: 15
         });
         heatmapH.setMap(map);
         var gradientH = [
-          'rgba(224,221,18, 0.2)',
-          'rgba(211,30,27, 0.5)',
-          'rgba(219,40,37, 1)',
+          'rgba(224,221,18, 0)',
+          <!--'rgba(211,30,27, 0.5)',-->
+          'rgba(224,221,18, 1)',
 
         ]
         heatmapH.set('gradient', gradientH);
