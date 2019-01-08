@@ -30,7 +30,7 @@ def xgboost(request):
 
         wetDryNeural = wetDryClassification(file)
         wetDryNeural["predictions"] = wetDryNeural["predictions"].map(
-            {"DRY": "A", "B": "B", "C": "C", "WET": "D", "E": "E", "F": "F", "G": "G", "H": "H"})
+            {"DRY": "A", "WET": "B", "C": "C", "D": "D", "E": "E", "F": "F", "G": "G", "H": "H"})
 
         print(wetDryNeural)
         from cmlare.processData.processResult import addMipoint

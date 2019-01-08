@@ -79,6 +79,49 @@
          opacity:1;
          margin-left:0
         }
+          #l2 {
+         position:absolute;
+         left:1.5em;
+         z-index:6;
+         line-height:1.5em;
+         font-size:80%;
+         bottom:7.5em;
+         display:table-cell;
+         background:#777;
+         background:linear-gradient(90deg,#555,#999,#555)
+        }
+        #l2 span {
+         padding:0 .25em;
+         display:block;
+         text-align:center
+        }
+        #l2 .pq {
+         color:#000;
+         background:#fff;
+         height:40px;
+        }
+        #l2 .yy {
+         padding:0 .5em;
+         font-family:Helvetica Neue,Arial,Helvetica,sans-serif;
+         font-weight:700;
+         height:40px
+        }
+        #l2.rc {
+         cursor:pointer
+        }
+        #l2.rc .pq:after {
+         content:"\203a";
+         transition:.25s;
+         margin-left:-.5em;
+         width:.5em;
+         text-align:right;
+         display:inline-block;
+         opacity:0
+        }
+        #l2.rc:hover .pq:after {
+         opacity:1;
+         margin-left:0
+        }
 
     </style>
   </head>
@@ -135,8 +178,19 @@
         <span class="yy" style="background: rgb(209, 92, 92) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0</span>
         <div id="h"></div>
     </div>
+        <div id="l2" title="Change units to “inch”" class="rc">
+        <span class="pq" style="">mm</span>
+        <!--<span class="yy" style="background: rgb(84, 16, 41) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">50</span>-->
+        <!--<span class="yy" style="background: rgb(147, 23, 78) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">40</span>-->
+            <span class="yy" style="background: rgba(67, 105, 196, 0.75) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">Wet</span>
+        <!--<span class="yy" style="background: rgba(85, 78, 177, 0.5) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0.2</span>-->
+        <!--<span class="yy" style="background: rgba(82, 71, 141, 0.38) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">0.1</span>-->
+        <span class="yy" style="background: rgb(209, 92, 92) none repeat scroll 0% 0%; color: rgb(255, 255, 255);">Dry</span>
+        <div id="h2"></div>
+    </div>
     <div id="map"></div>
     <script>
+            $('#l2').hide();
 
       // This example requires the Visualization library. Include the libraries=visualization
       // parameter when you first load the API. For example:
@@ -147,7 +201,8 @@
             results = allclass;
             <!--console.log(results)-->
             initMap();
-
+            $('#l2').hide();
+            $('#l').show()
         });
         $('#option2-label').click(function(){
             console.log("ANN");
@@ -155,7 +210,8 @@
             <!--console.log(results)-->
 
             initMap();
-
+            $('#l').hide();
+            $('#l2').show()
         });
         });
 
@@ -200,7 +256,7 @@
         var heatmapB = new google.maps.visualization.HeatmapLayer({
           data: getPoints("B"),
           dissapating: true,
-          radius: 15
+          radius: 5
         });
         heatmapB.setMap(map);
         var gradientB = [
